@@ -3,8 +3,8 @@ CFLAGS	= 	-std=c99 -pedantic -Wall -Wextra -O3 -march=native
 
 all: libmonocypher.a 
 
-libmonocypher.a: monocypher.o monocypher-ed25519.o
-	ar cr $@ monocypher.o monocypher-ed25519.o
+libmonocypher.a: monocypher.o monocypher-ed25519.o  crypto-aead-ietf.o
+	ar cr $@ monocypher.o monocypher-ed25519.o crypto-aead-ietf.o
 
 monocypher.c: Monocypher/src/monocypher.c
 	cp $< $@
@@ -25,6 +25,11 @@ monocypher-ed25519.o: monocypher-ed25519.c \
 		monocypher-ed25519.h
 	$(CC) $(CFLAGS) -c -o $@ $<
 
+crypto-aead-ietf.o: crypto-aead-ietf.c \
+		crypto-aead-ietf.h
+	$(CC) $(CFLAGS) -c -o $@ $<
+
 clean:
-	rm -f libmonocypher.a monocypher.o monocypher-ed25519.o 
-	rm -f monocypher.c monocypher.h monocypher-ed25519.c monocypher-ed25519.h
+	rm -f libmonocypher.a monocypher.o monocypher-ed25519.o crypto-aead-ietf.o
+	rm -f monocypher.c monocypher.h monocypher-ed25519.c  monocypher-ed25519.h
+

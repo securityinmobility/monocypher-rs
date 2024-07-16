@@ -1,4 +1,4 @@
 *.o
-*.c
-*.h
+monocypher*.c
+monocypher*.h
 *.a

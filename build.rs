@@ -1,7 +1,6 @@
 use std::env;
 use std::path::PathBuf;
 
-use bindgen::CargoCallbacks;
 
 fn main() {
     // This is the directory where the `c` library is located.
@@ -17,6 +16,9 @@ fn main() {
 
     let headers_path_ed25519 = libdir_path.join("monocypher-ed25519.h");
     let headers_path_ed25519_str = headers_path_ed25519.to_str().expect("Path is not a valid string");
+
+    let headers_path_aead_ietf = libdir_path.join("crypto-aead-ietf.h");
+    let headers_path_aead_ietf_str = headers_path_aead_ietf.to_str().expect("Path is not a valid string");
 
     // This is the path to the intermediate object file for our library.
     //let obj_path_monocypher = libdir_path.join("monocypher.o");
@@ -52,15 +54,18 @@ fn main() {
         // bindings for.
         .header(headers_path_monocypher_str)
         .header(headers_path_ed25519_str)
+        .header(headers_path_aead_ietf_str)
         // Allowlist the necessary functions
         .allowlist_function("crypto_ed25519_sign")
         .allowlist_function("crypto_ed25519_check")
         .allowlist_function("crypto_aead_lock")
         .allowlist_function("crypto_aead_unlock")
         .allowlist_function("crypto_blake2b")
+        .allowlist_function("crypto_aead_ietf_lock")
+        .allowlist_function("crypto_aead_ietf_unlock")
         // Tell cargo to invalidate the built crate whenever any of the
         // included header files changed.
-        .parse_callbacks(Box::new(CargoCallbacks::new()))
+        .parse_callbacks(Box::new(bindgen::CargoCallbacks::new()))
         // Finish the builder and generate the bindings.
         .generate()
         // Unwrap the Result and panic on failure.
