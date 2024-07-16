@@ -5,7 +5,7 @@ This is a minimal, easily expendable rust binding for the [Monocypher](https://m
 It is inspired by jan-schreib's [monocypher-rs](https://github.com/jan-schreib/monocypher-rs) implementation, but several functions were necessary in our application that are not covered by his version.
 The binding was also created to get familiar with bindgen.
 
-## Expendability
+## Expandability
 
 As the binding is kept very minimal, additional functions can be integrated easily:
 
